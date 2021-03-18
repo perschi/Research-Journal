@@ -48,6 +48,10 @@ Your main points
 </finding>
 ```
 
+### Citations
+
+Citations can be put in the bibliography.bib file as usually. To cite a key in the markdown file use @[key of bib entry].
+
 ## Requirements
 
 - pandoc
