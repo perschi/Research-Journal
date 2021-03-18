@@ -84,3 +84,11 @@ a{
 .toc6{
     margin-left: 12%;
 }
+
+.citation{
+    color: darkgray;
+}
+
+#refs{
+    background-color: lightsteelblue;
+}

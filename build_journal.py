@@ -103,18 +103,24 @@ adapted_str =\
     text.replace('<finding>', '<div class="finding">').replace('</finding>','</div>') +\
     '\n\n# Overview of important findings\n\n' +\
     '\n'.join([x.replace('\n','').replace('<finding>','').replace('</finding>','').replace(' -', '-') for x in pattern.findall(text)]) +\
+    '\n\n# References\n\n' +\
     '\n</div>'
 
 with open('tmp.md', 'w') as f:
     f.write(adapted_str)
 
-os.system('pandoc tmp.md -o journal.html -c journal.css -s --toc')
+os.system('pandoc tmp.md -o journal.html -c journal.css -s --bibliography bibliography.bib --citeproc')
 os.system('rm tmp.md')
 
-# Add Table of content ---------------------------------------------
+
 with open('journal.html', 'r') as f:
     html = f.read()
 
+# Add Hyperlink to bibliography
+
+html = re.sub('(?P<all><span class=\"citation\" data-cites=\"(?P<id>.*)\">.*</span>)','<a href=\"#ref-\g<id>\">\g<all></a>', html).replace('text-indent: -1.5em;','').replace('div.hanging-indent{margin-left: 1.5em; }','')
+
+# Add Table of content ---------------------------------------------
 h_pattern = re.compile('<h(?P<depth>[1-6]) id=\"(?P<id>.*?)\">(?P<title>.*?)</h[1-6]>')
 
 toc ="""
